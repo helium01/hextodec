@@ -1,0 +1,32 @@
+onPressed: () async {
+  try {
+    NFCTag tag = await FlutterNfcKit.poll();
+    setState(() {
+      _tag = tag;
+    });
+    await FlutterNfcKit.setIosAlertMessage("Working on it...");
+    _mifareResult = null;
+
+    // Implementasi untuk berbagai kondisi...
+
+    // Setelah operasi NFC selesai, panggil finish untuk menghentikan sesi NFC
+    await FlutterNfcKit.finish();
+  } catch (e) {
+    setState(() {
+      _result = 'error: $e';
+    });
+
+    // Jangan lupa untuk memanggil finish juga di blok catch
+    await FlutterNfcKit.finish();
+  }
+}
+//null safety
+var tagId = _tag?.id;
+
+if (tagId != null) {
+  // Lakukan sesuatu dengan tagId
+} else {
+  // Handle situasi ketika tagId adalah null
+}
+//ternery null safety
+var tagId = _tag?.id ?? 'default-id';
